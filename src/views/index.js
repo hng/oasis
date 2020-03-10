@@ -50,10 +50,15 @@ const md = new MarkdownIt();
 const i18nBase = require("./i18n");
 let i18n = null;
 let selectedLanguage = null;
+let profile = null;
 
 exports.setLanguage = language => {
   selectedLanguage = language;
   i18n = Object.assign({}, i18nBase.en, i18nBase[language]);
+};
+
+exports.setProfile = (name, avatarUrl) => {
+  profile = { name: name, avatarUrl: avatarUrl };
 };
 
 const markdownUrl = "https://commonmark.org/help/";
@@ -71,6 +76,12 @@ const nbsp = "\xa0";
 
 const navLink = ({ href, emoji, text }) =>
   li(a({ href }, span({ class: "emoji" }, emoji), nbsp, text));
+
+const navProfileSection = ({ href, avatarUrl, text }) =>
+  div(
+    { class: "profile-nav" },
+    a({ href }, img({ class: "avatar", src: avatarUrl }), nbsp, span(text))
+  );
 
 const template = (...elements) => {
   const nodes = html(
@@ -116,10 +127,16 @@ const template = (...elements) => {
             emoji: "🗒️",
             text: i18n.summaries
           }),
-          navLink({ href: "/profile", emoji: "🐱", text: i18n.profile }),
+          navLink({ href: "/search", emoji: "🔍", text: i18n.search })
+        ),
+        navProfileSection({
+          href: "/profile",
+          avatarUrl: profile.avatarUrl,
+          text: profile.name
+        }),
+        ul(
           navLink({ href: "/mentions", emoji: "💬", text: i18n.mentions }),
           navLink({ href: "/inbox", emoji: "✉️", text: i18n.private }),
-          navLink({ href: "/search", emoji: "🔍", text: i18n.search }),
           navLink({ href: "/settings", emoji: "⚙", text: i18n.settings })
         )
       ),

@@ -159,6 +159,7 @@ const {
   replyView,
   searchView,
   setLanguage,
+  setProfile,
   settingsView,
   topicsView,
   summaryView
@@ -753,6 +754,14 @@ const middleware = [
   async (ctx, next) => {
     const selectedLanguage = ctx.cookies.get("language") || "en";
     setLanguage(selectedLanguage);
+    await next();
+  },
+  async (ctx, next) => {
+    const myFeedId = await meta.myFeedId();
+    const name = await about.name(myFeedId);
+    const image = await about.image(myFeedId);
+    const avatarUrl = `/image/256/${encodeURIComponent(image)}`;
+    setProfile(name, avatarUrl);
     await next();
   },
   routes

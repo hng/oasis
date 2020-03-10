@@ -314,7 +314,8 @@ section header a {
   margin-left: var(--micro);
 }
 
-nav > ul > li > a {
+nav > ul > li > a,
+.profile-nav a {
   color: var(--fg);
   text-decoration: none;
   font-weight: bold;
@@ -322,6 +323,21 @@ nav > ul > li > a {
 
 nav > ul > li > a.current {
   text-decoration: underline;
+}
+
+.profile-nav {
+  margin-left: -2rem;
+  height: auto;
+  justify-content: left;
+}
+.profile-nav img.avatar {
+  width: 3rem;
+  height: 3rem;
+}
+
+.profile-nav > img,
+.profile-nav > a {
+  display: inline-block;
 }
 
 section {
@@ -342,7 +358,7 @@ section > header {
   color: var(--fg-status);
 }
 
-section header a > .avatar {
+.avatar {
   width: var(--line);
   height: var(--line);
   border-radius: var(--common-radius);
